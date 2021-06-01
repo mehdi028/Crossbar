@@ -143,12 +143,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\App.cpp" />
     <ClCompile Include="src\ExceptionRoot.cpp" />
     <ClCompile Include="src\MyTimer.cpp" />
     <ClCompile Include="src\Source.cpp" />
     <ClCompile Include="src\Window.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Headers\App.h" />
     <ClInclude Include="Headers\ExceptionRoot.h" />
     <ClInclude Include="Headers\MyTimer.h" />
     <ClInclude Include="Headers\Window.h" />

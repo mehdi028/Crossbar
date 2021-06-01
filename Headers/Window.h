@@ -27,11 +27,11 @@ public:
 		 static std::map<const wchar_t*, int>countWinClasses;
 		
 	public:
-		WindowClass(const HINSTANCE& hinstance, const wchar_t* className);
+		WindowClass(const HINSTANCE& hinstance,const wchar_t* className);
 		
 
 	};
-	Window(const HINSTANCE& hinstance, const wchar_t* gameName);
+	Window(const wchar_t* gameName);
 	//Window(const Window& rhs) = delete;
 	static LRESULT CALLBACK WindowProcStarter(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 	static LRESULT CALLBACK WindowProcSender(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
@@ -43,6 +43,7 @@ private:
 	int wWidth;
 	int wHeight;
 	const wchar_t* name;
+	HINSTANCE hinstance;
 	
 };
 

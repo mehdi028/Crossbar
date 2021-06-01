@@ -1,6 +1,6 @@
 #include<Windows.h>
 #include<chrono>
-#include "Window.h"
+#include "App.h"
 // HelloWindowsDesktop.cpp
 // compile with: /D_UNICODE /DUNICODE /DWIN32 /D_WINDOWS /c
 
@@ -154,12 +154,12 @@ INT WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
     PSTR lpCmdLine, INT nCmdShow)
 {
     
-    auto pClassname = L"cphwd3dum";
    
     auto start =  std::chrono::system_clock::now();
 
     try {
-        Window wnd = { hInstance, L"bomberMan" };
+        App app = { L"BomberMan" };
+        return app.Run();
     }
     catch (const Window::WindowException& err)
     {
@@ -169,26 +169,9 @@ INT WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
     }
     //Window wndi = { hInstance, L"bomberManss" };
 
-    MSG msg;
-    BOOL id;
-    while ( (id = GetMessage(&msg, NULL, 0, 0)) > 0) {
-
-        TranslateMessage(&msg);
-        DispatchMessage(&msg);
-        /*std::chrono::duration<float> dur = std::chrono::system_clock::now() - start;
-
-        std::ostringstream ss;
-        ss << dur.count() << std::endl ;
-        
-        OutputDebugStringA( ss.str().c_str());*/
-
-        
-    }
 
 
-
-    return msg.wParam;
+    
    
-
 
 }

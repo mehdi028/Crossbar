@@ -35,8 +35,8 @@ Window::WindowClass::WindowClass(const HINSTANCE& hinstance, const wchar_t* clas
 
 }
 
-Window::Window(const HINSTANCE& hinstance, const wchar_t* gameName)
-	:wWidth(800), wHeight(600), name(gameName)
+Window::Window(const wchar_t* gameName)
+	:wWidth(800), wHeight(600), name(gameName), hinstance(GetModuleHandle(nullptr))
 {
 	
 	const wchar_t* className = L"main";
@@ -63,7 +63,8 @@ Window::Window(const HINSTANCE& hinstance, const wchar_t* gameName)
 	{
 		throw GetWindowLastError;
 	}
-	throw WindowError(ERROR_ARENA_TRASHED);
+	
+	//throw WindowError(ERROR_ARENA_TRASHED);
 	hwnd = CreateWindowEx(0, className, gameName, WS_CAPTION | WS_MAXIMIZEBOX | WS_MINIMIZEBOX| WS_SYSMENU,
 		200, 200, wr.right - wr.left, wr.bottom - wr.top, nullptr, nullptr, hinstance, this);
 	if (hwnd == nullptr) {
