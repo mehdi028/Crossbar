@@ -59,7 +59,7 @@ Window::Window(const HINSTANCE& hinstance, const wchar_t* gameName)
 	wr.right = wr.left + wWidth;
 	wr.top = 100;
 	wr.bottom = wr.top + wHeight;
-	if (AdjustWindowRect(&wr, WS_CAPTION | WS_MAXIMIZEBOX | WS_MINIMIZEBOX | WS_SYSMENU, FALSE))
+	if (AdjustWindowRect(&wr, WS_CAPTION | WS_MAXIMIZEBOX | WS_MINIMIZEBOX | WS_SYSMENU, FALSE) == 0)
 	{
 		throw GetWindowLastError;
 	}
