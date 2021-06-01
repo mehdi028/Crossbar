@@ -9,3 +9,4 @@ const char* ExceptionRoot::what() const
 {
 	return "\n something\n";
 }
+

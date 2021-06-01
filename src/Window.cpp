@@ -157,6 +157,7 @@ const char* Window::WindowException::what() const
 	return WhatMessage.c_str();
 }
 
+
 std::string Window::WindowException::MessageWndFormatter() const
 {
 	char* lpMessage = nullptr;

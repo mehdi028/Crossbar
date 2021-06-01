@@ -165,6 +165,7 @@ INT WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
     {
         OutputDebugStringA(err.what());
         MessageBoxA(nullptr, err.what(), err.GetType().c_str(), MB_OK | MB_ICONEXCLAMATION);
+
     }
     //Window wndi = { hInstance, L"bomberManss" };
 

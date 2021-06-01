@@ -47,4 +47,4 @@ private:
 };
 
 #define GetWindowLastError  Window::WindowException(GetLastError(), __FILE__, __LINE__)
-#define WindowError(dword)  Window::WindowException(dword, __FILE__, __LINE__);
+#define WindowError(dword)  Window::WindowException(dword, __FILE__, __LINE__)

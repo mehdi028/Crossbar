@@ -13,6 +13,7 @@ float MyTimer::Peek()
 	return  dur.count();
 }
 
+
 float MyTimer::Mark()
 {
 	auto dur = chrono::system_clock::now() - start;
