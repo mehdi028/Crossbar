@@ -143,6 +143,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Keyboard.cpp" />
     <ClCompile Include="src\App.cpp" />
     <ClCompile Include="src\ExceptionRoot.cpp" />
     <ClCompile Include="src\MyTimer.cpp" />
@@ -154,6 +155,7 @@
     <ClInclude Include="Headers\ExceptionRoot.h" />
     <ClInclude Include="Headers\MyTimer.h" />
     <ClInclude Include="Headers\Window.h" />
+    <ClInclude Include="Headers\Keyboard.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -4,11 +4,13 @@
 #include<map>
 #include<exception>
 #include "ExceptionRoot.h"
+#include"Keyboard.h"
 
 
 class Window
 {
 public:
+	friend class App;
 	class WindowException : public ExceptionRoot
 	{
 	public:
@@ -39,11 +41,14 @@ public:
 	void Test();
 
 private:
+	
 	HWND hwnd;
 	int wWidth;
 	int wHeight;
 	const wchar_t* name;
 	HINSTANCE hinstance;
+	// window eliments
+	Keyboard kb;
 	
 };
 

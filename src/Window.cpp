@@ -126,6 +126,18 @@ LRESULT Window::MainWindProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
 	switch (uMsg) 
 	{
+	case WM_KEYDOWN:
+		kb.OnPressed((unsigned char)wParam); break;
+	case WM_KEYUP:
+		kb.OnKeyUp((unsigned char)wParam); break;
+	case WM_CHAR:
+		
+		kb.AllowRepeat();
+		if (kb.RepeatAllowed || !(0x40000000 & lParam))
+		{
+			kb.OnChar((unsigned char)wParam);
+			break;
+		}
 	case WM_MOUSEMOVE:
 		OutputDebugStringA("hi\n");
 		break;
