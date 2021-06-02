@@ -24,7 +24,7 @@ public:
 
 	};
 
-	Keyboard()noexcept = default;
+	Keyboard()noexcept;
 	// check if a queue is empty
 	bool  IsQueueEmpty(const std::queue<Event>& Queue);
 

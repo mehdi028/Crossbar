@@ -2,43 +2,11 @@
 
 #include<sstream>
 
-std::map<const wchar_t*, int> Window::WindowClass::countWinClasses  ;
-Window::WindowClass::WindowClass(const HINSTANCE& hinstance, const wchar_t* className)
-{
-	WNDCLASSEX wnd = { 0 };
-	wnd.cbSize = sizeof(WNDCLASSEX);
-	wnd.style = CS_OWNDC;
-	wnd.lpfnWndProc = DefWindowProc;
-	wnd.cbClsExtra = 0;
-	wnd.cbWndExtra = 0;
-	wnd.hInstance = hinstance;
-	wnd.hIcon = NULL;
-	wnd.hCursor = NULL;
-	wnd.hbrBackground = (HBRUSH)(COLOR_BACKGROUND + 1);
-	wnd.lpszMenuName = NULL;
-	wnd.lpszClassName = className;
-	wnd.hIconSm = NULL;
-	RegisterClassEx(&wnd);
-	auto class_index = countWinClasses.find(className);
-	// keep track of the number of instances using window classes 
-	if (class_index != countWinClasses.end())
-	{
-		countWinClasses[className] = countWinClasses[className] + 1;
-	}
-	else {
-		countWinClasses[className] = 1;
-	}
-
-
-
-
-
-}
 
 Window::Window(const wchar_t* gameName)
 	:wWidth(800), wHeight(600), name(gameName), hinstance(GetModuleHandle(nullptr))
 {
-	
+
 	const wchar_t* className = L"main";
 	WNDCLASSEX wnd = { 0 };
 	wnd.cbSize = sizeof(WNDCLASSEX);
@@ -80,6 +48,20 @@ void Window::Test()
 {
 	
 	OutputDebugString(name);
+}
+std::optional<int> Window::WindowLoop()
+{
+	MSG  msg;
+	while (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE))
+	{
+		TranslateMessage(&msg);
+		DispatchMessage(&msg);
+		if (msg.message == WM_QUIT)
+		{
+			return (int) msg.wParam;
+		}
+	}
+	return std::optional<int>();
 }
 LRESULT CALLBACK Window::WindowProcStarter(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
@@ -124,6 +106,7 @@ LRESULT Window::WindowProcSender(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 LRESULT Window::MainWindProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
+	POINTS pt;
 	switch (uMsg) 
 	{
 	case WM_KEYDOWN:
@@ -139,8 +122,24 @@ LRESULT Window::MainWindProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 			break;
 		}
 	case WM_MOUSEMOVE:
-		OutputDebugStringA("hi\n");
+		pt = MAKEPOINTS(lParam);
+		mouse.OnMouseMove(pt.x, pt.y);
 		break;
+	case WM_LBUTTONDOWN:
+		pt = MAKEPOINTS(lParam);
+		mouse.OnMouseLclick(pt.x, pt.y);
+		break;
+	case WM_LBUTTONUP:
+		pt = MAKEPOINTS(lParam);
+		mouse.OnMouseLup(pt.x, pt.y);
+		break;
+	case WM_RBUTTONDOWN:
+		pt = MAKEPOINTS(lParam);
+		mouse.OnMouseRclick(pt.x, pt.y);
+		break;
+
+
+
 	case WM_CLOSE: PostQuitMessage(10); break;
 
 	}

@@ -7,6 +7,10 @@ Keyboard::Event::Event(const unsigned char unicode, const Type& event_type) noex
 }
 
 
+Keyboard::Keyboard() noexcept
+{
+}
+
 bool Keyboard::IsQueueEmpty(const std::queue<Event>& Queue)
 {
 	return  Queue.size() == 0;
@@ -58,6 +62,7 @@ void Keyboard::OnPressed(const unsigned char& unicode)
 void Keyboard::OnKeyUp(const unsigned char& unicode)
 {
 	count = 0;
+	RepeatAllowed = false;
 	keyState[unicode] = false;
 	KeysQueue.push({ unicode, Event::Type::Key_UP });
 	TrimQueue(KeysQueue);

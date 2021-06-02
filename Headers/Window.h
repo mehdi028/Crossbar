@@ -5,6 +5,8 @@
 #include<exception>
 #include "ExceptionRoot.h"
 #include"Keyboard.h"
+#include "Mouse.h"
+#include<optional>
 
 
 class Window
@@ -24,21 +26,14 @@ public:
 		DWORD dwordCode;
 
 	};
-	class WindowClass {
-	private:
-		 static std::map<const wchar_t*, int>countWinClasses;
-		
-	public:
-		WindowClass(const HINSTANCE& hinstance,const wchar_t* className);
-		
-
-	};
+	
 	Window(const wchar_t* gameName);
 	//Window(const Window& rhs) = delete;
 	static LRESULT CALLBACK WindowProcStarter(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 	static LRESULT CALLBACK WindowProcSender(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 	LRESULT MainWindProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 	void Test();
+	std::optional<int> WindowLoop();
 
 private:
 	
@@ -49,6 +44,7 @@ private:
 	HINSTANCE hinstance;
 	// window eliments
 	Keyboard kb;
+	Mouse mouse;
 	
 };
 

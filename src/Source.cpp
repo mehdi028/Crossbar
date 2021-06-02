@@ -169,9 +169,6 @@ INT WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
     }
     //Window wndi = { hInstance, L"bomberManss" };
 
-
-
-    
-   
+    return -1;
 
 }
