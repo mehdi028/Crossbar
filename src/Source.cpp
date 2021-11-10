@@ -1,6 +1,7 @@
 #include<Windows.h>
 #include<chrono>
 #include "App.h"
+
 // HelloWindowsDesktop.cpp
 // compile with: /D_UNICODE /DUNICODE /DWIN32 /D_WINDOWS /c
 
@@ -158,6 +159,7 @@ INT WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
     auto start =  std::chrono::system_clock::now();
 
     try {
+        srand(time(NULL));
         App app = { L"BomberMan" };
         return app.Run();
     }
@@ -165,6 +167,11 @@ INT WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
     {
         OutputDebugStringA(err.what());
         MessageBoxA(nullptr, err.what(), err.GetType().c_str(), MB_OK | MB_ICONEXCLAMATION);
+
+    }
+    catch (...)
+    {
+        MessageBoxA(nullptr, "unkown error!", "unkown!", MB_OK | MB_ICONEXCLAMATION);
 
     }
     //Window wndi = { hInstance, L"bomberManss" };

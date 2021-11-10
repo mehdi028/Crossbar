@@ -17,7 +17,7 @@ Window::Window(const wchar_t* gameName)
 	wnd.hInstance = hinstance;
 	wnd.hIcon = NULL;
 	wnd.hCursor = NULL;
-	wnd.hbrBackground = (HBRUSH)(COLOR_BACKGROUND + 1);
+	wnd.hbrBackground = (HBRUSH)(COLOR_GRAYTEXT + 1);
 	wnd.lpszMenuName = NULL;
 	wnd.lpszClassName = className;
 	wnd.hIconSm = NULL;
@@ -40,7 +40,10 @@ Window::Window(const wchar_t* gameName)
 		throw GetWindowLastError;
 
 	}
+	pgfx = std::make_unique<Graphics>(hwnd);
 	ShowWindow(hwnd, SW_SHOW);
+
+	
 	
 	
 }

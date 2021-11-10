@@ -6,13 +6,16 @@
 #include "ExceptionRoot.h"
 #include"Keyboard.h"
 #include "Mouse.h"
+#include "Graphics.h"
 #include<optional>
+#include <memory>
 
 
 class Window
 {
 public:
 	friend class App;
+	friend class Plate;
 	class WindowException : public ExceptionRoot
 	{
 	public:
@@ -45,6 +48,7 @@ private:
 	// window eliments
 	Keyboard kb;
 	Mouse mouse;
+	std::unique_ptr<Graphics>pgfx;
 	
 };
 
