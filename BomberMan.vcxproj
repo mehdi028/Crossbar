@@ -92,6 +92,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="shaderObjects\cpp\IndBuffer.cpp" />
     <ClCompile Include="src\Plate.cpp" />
     <ClCompile Include="src\LimitLine.cpp" />
     <ClCompile Include="src\InputLayout.cpp" />
@@ -110,6 +111,7 @@
     <ClCompile Include="src\Window.cpp" />
     <ClCompile Include="src\Vbuffer.cpp" />
     <ClCompile Include="src\VertexShader.cpp" />
+    <ClCompile Include="shaderObjects\cpp\VertexBuffer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Headers\AllBindable.h" />
@@ -120,6 +122,7 @@
     <ClInclude Include="Headers\App.h" />
     <ClInclude Include="Headers\ExceptionRoot.h" />
     <ClInclude Include="Headers\MyTimer.h" />
+    <ClInclude Include="Headers\ShaderObjects.h" />
     <ClInclude Include="Headers\Window.h" />
     <ClInclude Include="Headers\Keyboard.h" />
     <ClInclude Include="Headers\Mouse.h" />
@@ -130,6 +133,8 @@
     <ClInclude Include="Headers\InputLayout.h" />
     <ClInclude Include="Headers\LimitLine.h" />
     <ClInclude Include="Headers\Plate.h" />
+    <ClInclude Include="shaderObjects\Headers\IndBuffer.h" />
+    <ClInclude Include="shaderObjects\Headers\VertexBuffer.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="shaders\EnemyPShader.hlsl">

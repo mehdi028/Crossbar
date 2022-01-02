@@ -14,7 +14,7 @@ class Plate :
 	void Draw() override;
 private:
 	UINT nverticies = 0;
-	Microsoft::WRL::ComPtr<ID3D11Buffer> pStructure;
+	Microsoft::WRL::ComPtr<ID3D11Buffer> pVertexbuffer;
 	Microsoft::WRL::ComPtr<ID3D11Buffer> pTransformbuffer;
 	Microsoft::WRL::ComPtr<ID3D11InputLayout> pinputLayout;
 	Microsoft::WRL::ComPtr<ID3D11VertexShader> pVshader;

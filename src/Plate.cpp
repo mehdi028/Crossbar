@@ -1,6 +1,8 @@
 #include "Plate.h"
 //#include "..\Headers\Plate.h"
 #include <DirectXMath.h>
+#include "ShaderObjects.h"
+
 
 namespace  wrl = Microsoft::WRL;
 Plate::Plate(Graphics& gfx) noexcept
@@ -16,18 +18,25 @@ Plate::Plate(Graphics& gfx) noexcept
 		unsigned char a;
 	};
 	// create a  triangle 
-	Vertex verticies[] = {
+	std::vector<Vertex> verticies = {
 		{0.05f, 0.05f, 255, 255, 255, 255},
 		{0.05f, 0.0f, 0, 255, 255, 255},
 		{ -0.25f, 0.0f, 255, 0, 255, 255},
 		{-0.25f, 0.05f, 255, 255, 0, 255}
 	};
 	//short int indicies
-	short indicies[] = {
+	std::vector<short> indicies = {
 		0,1,2,
 		3,0,2
 	};
-	nverticies = (UINT)std::size(indicies);
+	nverticies = (UINT)indicies.size();
+	IndBuffer<short> Ibuffer(gfx, pIndexBuffer, indicies);
+
+	VertexBuffer<Vertex> Vbuffer(gfx, pVertexbuffer, verticies);
+
+	stride = sizeof(Vertex);
+
+	/*
 	// create index buffer
 	D3D11_BUFFER_DESC indexDscr{};
 	indexDscr.ByteWidth = sizeof(indicies);
@@ -42,9 +51,9 @@ Plate::Plate(Graphics& gfx) noexcept
 	indexData.SysMemPitch = 0;
 	indexData.SysMemSlicePitch = 0;
 
-	GetpDevice()->CreateBuffer(&indexDscr, &indexData, &pIndexBuffer);
+	GetpDevice()->CreateBuffer(&indexDscr, &indexData, &pIndexBuffer);*/
 
-
+	/*
 	// create a buffer
 	D3D11_BUFFER_DESC vertexDescr{};
 	vertexDescr.ByteWidth = sizeof(verticies);
@@ -58,9 +67,8 @@ Plate::Plate(Graphics& gfx) noexcept
 	vertexData.pSysMem = verticies;
 	/*vertexData.SysMemPitch = 0;
 	vertexData.SysMemSlicePitch = 0;*/
-	GFX_CHECK_ERROR(GetpDevice()->CreateBuffer(&vertexDescr, &vertexData, &pStructure));
-	stride = sizeof(Vertex);
-
+	//GFX_CHECK_ERROR(GetpDevice()->CreateBuffer(&vertexDescr, &vertexData, &pVertexbuffer));
+	
 
 	// shaders
 	wrl::ComPtr<ID3DBlob> pBlob;
@@ -190,7 +198,7 @@ void Plate::Draw()
 {
 	const UINT offset = 0u;
 
-	GetpContext()->IASetVertexBuffers(0u, 1u, pStructure.GetAddressOf(), &stride, &offset);
+	GetpContext()->IASetVertexBuffers(0u, 1u, pVertexbuffer.GetAddressOf(), &stride, &offset);
 	GetpContext()->IASetIndexBuffer(pIndexBuffer.Get(), DXGI_FORMAT_R16_UINT, 0);
 	GetpContext()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 	GetpContext()->PSSetShader(pPshader.Get(), nullptr, 0u);
