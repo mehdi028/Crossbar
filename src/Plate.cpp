@@ -142,6 +142,8 @@ Plate::Plate(Graphics& gfx) noexcept
 	cbData.SysMemPitch = 0;
 	cbData.SysMemSlicePitch = 0;
 	GFX_CHECK_ERROR(GetpDevice()->CreateBuffer(&cbufferDescr, &cbData, &pTransformbuffer));
+	//hello
+
 }
 
 void Plate::UpdatePos(float x, float limit)
