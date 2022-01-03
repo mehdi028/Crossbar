@@ -77,9 +77,6 @@ Plate::Plate(Graphics& gfx) noexcept
 
 	GFX_CHECK_ERROR(GetpDevice()->CreatePixelShader(pBlob->GetBufferPointer(), pBlob->GetBufferSize(), nullptr, &pPshader));
 
-
-
-
 	GFX_CHECK_ERROR(D3DReadFileToBlob(L"PlateVertexShader.cso", &pBlob));
 
 	GFX_CHECK_ERROR(GetpDevice()->CreateVertexShader(pBlob->GetBufferPointer(), pBlob->GetBufferSize(), nullptr, &pVshader));
@@ -92,8 +89,6 @@ Plate::Plate(Graphics& gfx) noexcept
 
 	};
 	GFX_CHECK_ERROR(GetpDevice()->CreateInputLayout(iedesc, (UINT)std::size(iedesc), pBlob->GetBufferPointer(), pBlob->GetBufferSize(), &pinputLayout));
-
-
 
 	struct TransformBuffer {
 
@@ -171,10 +166,11 @@ void Plate::UpdatePos(float x, float limit)
 		{DirectX::XMMatrixTranspose(DirectX::XMMatrixTranslation(transform_x, -0.75f, 0.f))}
 	};
 
-	D3D11_MAPPED_SUBRESOURCE msr;
+	ConstantBuffer<Cbuffer>::UpdateBuffer(pGfx, pTransformbuffer, cb);
+	/*D3D11_MAPPED_SUBRESOURCE msr;
 	GetpContext()->Map(pTransformbuffer.Get(), 0u, D3D11_MAP_WRITE_DISCARD, 0u, &msr);
 	memcpy(msr.pData, &cb, sizeof(cb));
-	GetpContext()->Unmap(pTransformbuffer.Get(), 0u);
+	GetpContext()->Unmap(pTransformbuffer.Get(), 0u);*/
 
 }
 
