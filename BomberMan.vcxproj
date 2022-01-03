@@ -16,7 +16,7 @@
     <ProjectGuid>{0c43ec55-9c07-43b0-967a-334bc4930bca}</ProjectGuid>
     <RootNamespace>BomberMan</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
-    <ProjectName>CrossBar</ProjectName>
+    <ProjectName>BomberMan</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
@@ -93,6 +93,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="shaderObjects\cpp\ConstantBuffer.cpp" />
     <ClCompile Include="shaderObjects\cpp\IndBuffer.cpp" />
     <ClCompile Include="src\Plate.cpp" />
     <ClCompile Include="src\LimitLine.cpp" />
@@ -115,6 +116,7 @@
     <ClCompile Include="shaderObjects\cpp\VertexBuffer.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="shaderObjects\Headers\ConstantBuffer.h" />
     <ClInclude Include="Headers\AllBindable.h" />
     <ClInclude Include="Headers\Bindable.h" />
     <ClInclude Include="Headers\Drawable.h" />

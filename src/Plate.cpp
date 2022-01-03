@@ -106,7 +106,7 @@ Plate::Plate(Graphics& gfx) noexcept
 
 		}
 	};
-	wrl::ComPtr<ID3D11Buffer>  pTBuffer;
+	/*wrl::ComPtr<ID3D11Buffer>  pTBuffer;
 	D3D11_SUBRESOURCE_DATA transformData;
 	transformData.pSysMem = &tbuffer;
 	D3D11_BUFFER_DESC transformDescr{};
@@ -116,7 +116,7 @@ Plate::Plate(Graphics& gfx) noexcept
 	transformDescr.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
 	transformDescr.MiscFlags = 0;
 
-	GFX_CHECK_ERROR(GetpDevice()->CreateBuffer(&transformDescr, &transformData, &pTBuffer));
+	GFX_CHECK_ERROR(GetpDevice()->CreateBuffer(&transformDescr, &transformData, &pTBuffer));*/
 
 
 	struct Cbuffer
@@ -130,7 +130,7 @@ Plate::Plate(Graphics& gfx) noexcept
 	{
 		{DirectX::XMMatrixTranspose(DirectX::XMMatrixTranslation(x, -0.75f, 0.f))}
 	};
-	D3D11_BUFFER_DESC cbufferDescr{};
+	/*D3D11_BUFFER_DESC cbufferDescr{};
 	cbufferDescr.ByteWidth = sizeof(cb);
 	cbufferDescr.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
 	cbufferDescr.MiscFlags = 0;
@@ -141,7 +141,8 @@ Plate::Plate(Graphics& gfx) noexcept
 	cbData.pSysMem = &cb;
 	cbData.SysMemPitch = 0;
 	cbData.SysMemSlicePitch = 0;
-	GFX_CHECK_ERROR(GetpDevice()->CreateBuffer(&cbufferDescr, &cbData, &pTransformbuffer));
+	GFX_CHECK_ERROR(GetpDevice()->CreateBuffer(&cbufferDescr, &cbData, &pTransformbuffer));*/
+	ConstantBuffer<Cbuffer> moveBuffer(gfx, pTransformbuffer, cb);
 }
 
 void Plate::UpdatePos(float x, float limit)
