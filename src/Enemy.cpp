@@ -1,5 +1,6 @@
 #include "Enemy.h"
 #include <DirectXMath.h>
+#include "ShaderObjects.h"
 
 namespace wrl = Microsoft::WRL;
 Enemy::Enemy(Graphics& gfx)
@@ -9,7 +10,7 @@ Enemy::Enemy(Graphics& gfx)
 		float x;
 		float y;
 	};
-	Vertex verticies[] = {
+	std::vector<Vertex> verticies = {
 		{0.05f, 0.05f},
 		{0.05f, 0.0f},
 		{-0.25f, 0.0f},
@@ -17,11 +18,15 @@ Enemy::Enemy(Graphics& gfx)
 	};
 	
 	//short int indicies
-	short indicies[] = {
+	std::vector<short> indicies = {
 		0,1,2,
 		3,0,2
 	};
 	nverticies = (UINT)std::size(indicies);
+	IndBuffer<short> Ibuffer(gfx, pIndexBuffer, indicies);
+
+	VertexBuffer<Vertex> Vbuffer(gfx, pVertexbuffer, verticies);
+	/*
 	// create index buffer
 	D3D11_BUFFER_DESC indexDscr{};
 	indexDscr.ByteWidth = sizeof(indicies);
@@ -52,7 +57,7 @@ Enemy::Enemy(Graphics& gfx)
 	vertexData.pSysMem = verticies;
 	/*vertexData.SysMemPitch = 0;
 	vertexData.SysMemSlicePitch = 0;*/
-	GFX_CHECK_ERROR(GetpDevice()->CreateBuffer(&vertexDescr, &vertexData, &pStructure));
+	//GFX_CHECK_ERROR(GetpDevice()->CreateBuffer(&vertexDescr, &vertexData, &pStructure));
 	stride = sizeof(Vertex);
 	
 
@@ -60,24 +65,16 @@ Enemy::Enemy(Graphics& gfx)
 	wrl::ComPtr<ID3DBlob> pBlob;
 	
 	GFX_CHECK_ERROR(D3DReadFileToBlob(L"EnemyPShader.cso", &pBlob));
-
 	GFX_CHECK_ERROR(GetpDevice()->CreatePixelShader(pBlob->GetBufferPointer(), pBlob->GetBufferSize(), nullptr, &pPshader));
-	
-
-	
-
 	GFX_CHECK_ERROR(D3DReadFileToBlob(L"EnemyVshader.cso", &pBlob));
-
 	GFX_CHECK_ERROR(GetpDevice()->CreateVertexShader(pBlob->GetBufferPointer(), pBlob->GetBufferSize(), nullptr, &pVshader));
-	
-	// input layout
-	
+
+	// input layout	
 	const D3D11_INPUT_ELEMENT_DESC iedesc[] = {
 		{"POSITION",0,DXGI_FORMAT_R32G32_FLOAT,0,0, D3D11_INPUT_PER_VERTEX_DATA,0}
 	};
 	GFX_CHECK_ERROR(GetpDevice()->CreateInputLayout(iedesc, (UINT)std::size(iedesc), pBlob->GetBufferPointer(), pBlob->GetBufferSize(), &pinputLayout));
 
-	
 
 	struct TransformBuffer {
 
@@ -90,7 +87,7 @@ Enemy::Enemy(Graphics& gfx)
 
 		}
 	};
-	wrl::ComPtr<ID3D11Buffer>  pTBuffer;
+	/*wrl::ComPtr<ID3D11Buffer>  pTBuffer;
 	D3D11_SUBRESOURCE_DATA transformData;
 	transformData.pSysMem = &tbuffer;
 	D3D11_BUFFER_DESC transformDescr{};
@@ -100,7 +97,7 @@ Enemy::Enemy(Graphics& gfx)
 	transformDescr.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
 	transformDescr.MiscFlags = 0;
 
-	GFX_CHECK_ERROR(GetpDevice()->CreateBuffer(&transformDescr, &transformData, &pTBuffer));
+	GFX_CHECK_ERROR(GetpDevice()->CreateBuffer(&transformDescr, &transformData, &pTBuffer));*/
 	
 
 	struct Cbuffer
@@ -134,7 +131,8 @@ Enemy::Enemy(Graphics& gfx)
 	{
 		{DirectX::XMMatrixTranspose(DirectX::XMMatrixTranslation(x, y, 0.f))}
 	};
-	D3D11_BUFFER_DESC cbufferDescr{};
+	ConstantBuffer<Cbuffer> moveBuffer(gfx, pTransformbuffer, cb);
+	/*D3D11_BUFFER_DESC cbufferDescr{};
 	cbufferDescr.ByteWidth = sizeof(cb);
 	cbufferDescr.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
 	cbufferDescr.MiscFlags = 0;
@@ -145,7 +143,7 @@ Enemy::Enemy(Graphics& gfx)
 	cbData.pSysMem = &cb;
 	cbData.SysMemPitch = 0;
 	cbData.SysMemSlicePitch = 0;
-	GFX_CHECK_ERROR(GetpDevice()->CreateBuffer(&cbufferDescr, &cbData, &pTransformbuffer));
+	GFX_CHECK_ERROR(GetpDevice()->CreateBuffer(&cbufferDescr, &cbData, &pTransformbuffer));*/
 	
 }
 
@@ -154,7 +152,7 @@ void Enemy::Draw()
 	
 	const UINT offset = 0u;
 
-	GetpContext()->IASetVertexBuffers(0u, 1u, pStructure.GetAddressOf(), &stride, &offset);
+	GetpContext()->IASetVertexBuffers(0u, 1u, pVertexbuffer.GetAddressOf(), &stride, &offset);
 	GetpContext()->IASetIndexBuffer(pIndexBuffer.Get(), DXGI_FORMAT_R16_UINT, 0);
 	GetpContext()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 	GetpContext()->PSSetShader(pPshader.Get(), nullptr, 0u);

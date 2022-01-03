@@ -1,4 +1,5 @@
 #include "LimitLine.h"
+#include "ShaderObjects.h"
 
 namespace wrl = Microsoft::WRL;
 LimitLine::LimitLine(Graphics& gfx)
@@ -13,7 +14,7 @@ LimitLine::LimitLine(Graphics& gfx)
 		unsigned char a;
 	};
 	limit_x = 0.80f;
-	Vertex verticies[] = {
+	std::vector<Vertex> verticies = {
 		{limit_x, 1.f, 255, 255, 255, 255},
 		{0.85f, 1.0f, 0, 255, 255, 255},
 		{0.85f, -1.0f, 255, 0, 255, 255},
@@ -21,14 +22,19 @@ LimitLine::LimitLine(Graphics& gfx)
 	};
 
 	//short int indicies
-	short indicies[] = {
+	std::vector<short> indicies = {
 		0,1,2,
 		3,0,2
 	};
 	nverticies = (UINT)std::size(indicies);
+	IndBuffer<short> Ibuffer(gfx, pIndexBuffer, indicies);
+
+	VertexBuffer<Vertex> Vbuffer(gfx, pVertexbuffer, verticies);
+	stride = sizeof(Vertex);
+
 
 	// create index buffer
-	D3D11_BUFFER_DESC indexDscr{};
+	/*D3D11_BUFFER_DESC indexDscr{};
 	indexDscr.ByteWidth = sizeof(indicies);
 	indexDscr.Usage = D3D11_USAGE_DEFAULT;
 	indexDscr.BindFlags = D3D11_BIND_INDEX_BUFFER;
@@ -56,8 +62,8 @@ LimitLine::LimitLine(Graphics& gfx)
 	vertexData.pSysMem = verticies;
 	/*vertexData.SysMemPitch = 0;
 	vertexData.SysMemSlicePitch = 0;*/
-	GFX_CHECK_ERROR(GetpDevice()->CreateBuffer(&vertexDescr, &vertexData, &pStructure));
-	stride = sizeof(Vertex);
+	//GFX_CHECK_ERROR(GetpDevice()->CreateBuffer(&vertexDescr, &vertexData, &pVertexbuffer));
+
 
 	// shaders
 	wrl::ComPtr<ID3DBlob> pBlob;
@@ -65,9 +71,6 @@ LimitLine::LimitLine(Graphics& gfx)
 	GFX_CHECK_ERROR(D3DReadFileToBlob(L"LimitPShader.cso", &pBlob));
 
 	GFX_CHECK_ERROR(GetpDevice()->CreatePixelShader(pBlob->GetBufferPointer(), pBlob->GetBufferSize(), nullptr, &pPshader));
-
-
-
 
 	GFX_CHECK_ERROR(D3DReadFileToBlob(L"LimitVshader.cso", &pBlob));
 
@@ -86,7 +89,7 @@ void LimitLine::Draw()
 {
 	const UINT offset = 0u;
 
-	GetpContext()->IASetVertexBuffers(0u, 1u, pStructure.GetAddressOf(), &stride, &offset);
+	GetpContext()->IASetVertexBuffers(0u, 1u, pVertexbuffer.GetAddressOf(), &stride, &offset);
 	GetpContext()->IASetIndexBuffer(pIndexBuffer.Get(), DXGI_FORMAT_R16_UINT, 0);
 	GetpContext()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 	GetpContext()->PSSetShader(pPshader.Get(), nullptr, 0u);
