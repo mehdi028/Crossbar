@@ -10,6 +10,7 @@ public:
 	LimitLine(Graphics& gfx);
 	void Draw() override;
 	float getLimitX();
+	void UpdatePos(float limit) override;
 private:
 	std::vector<Bindable> all_Bindables;
 	UINT nverticies = 0;

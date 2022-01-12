@@ -17,7 +17,7 @@ public:
 	App(const wchar_t* gameName) ;
 	int Run();
 	void DrawFrame();
-	
+	void UpdateFrame();
 
 
 

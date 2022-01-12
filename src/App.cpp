@@ -12,7 +12,7 @@ App::App(const wchar_t* gameName)
     int i = 0;
     while (i < 10)
     {
-        Draw_eliments.push_back(std::make_unique<Enemy>(*(mainWnd.pgfx)));
+        Draw_eliments.push_back(std::make_unique<Enemy>(*(mainWnd.pgfx), Limit_Bar->getLimitX()));
         i++;
     }
 
@@ -20,7 +20,8 @@ App::App(const wchar_t* gameName)
 
 int App::Run()
 {
-    MyTimer timr;
+    MyTimer timer;
+    
     float angle = 0;
     float x = 0.f;
     float y = 0.f;
@@ -51,9 +52,19 @@ int App::Run()
             x += 10.f;
         }*/
         DrawFrame();
+        std::ostringstream sss;
+        //sss << " \ntime: \n";
+        //sss << timr.Peek() << "\n";
+       // OutputDebugStringA(sss.str().c_str());
+        if (timer.Peek() > 4) {
+
+            UpdateFrame();
+            timer.Mark();
+
+        }
         
-        std::string a = std::to_string( sin(timr.Peek()));
-        OutputDebugStringA(a.c_str());
+        //std::string a = std::to_string( sin(timer.Peek()));
+        //OutputDebugStringA(a.c_str());
        // mainWnd.pgfx->DrawTriangle((float) sin(timr.Peek()), 0.02f, 1.f);
         mainWnd.pgfx->PresentFrame();
         mainWnd.pgfx->ClearRendered();
@@ -118,6 +129,15 @@ void App::DrawFrame()
     {
         eliment->Draw();
     }
+}
+
+void App::UpdateFrame()
+{
+    for (auto& enemy : Draw_eliments)
+    {
+        enemy->UpdatePos(0.0f);
+    }
+    Draw_eliments.push_back(std::make_unique<Enemy>(*(mainWnd.pgfx), Limit_Bar->getLimitX()));
 }
 
 

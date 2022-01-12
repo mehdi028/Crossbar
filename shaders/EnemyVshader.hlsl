@@ -1,10 +1,18 @@
+struct ToPixels {
+	float4 col : MyCol;
+	float4 positions : SV_POSITION;
 
+
+};
 cbuffer enemyTransform {
 
 	matrix transform;
 };
-float4 main( float4 pos : POSITION ) : SV_POSITION
+ToPixels main(float2 pos : POSITION, float4 colors : COLOR) 
 {
+	ToPixels vertex;
+vertex.positions = mul(float4(pos.x, pos.y, 0, 1.0f), transform);
+vertex.col = colors;
 	
-	return mul(float4(pos.x, pos.y, 0, 1.0f), transform);
+	return vertex ;
 }

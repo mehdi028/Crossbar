@@ -9,7 +9,7 @@ class Plate :
 {public:
 	
 	Plate(Graphics& gfx) noexcept;
-	void UpdatePos(float x, float limit);
+	void UpdatePos(float limit) override;
 	void MovePlate(Window& wnd, float limit);
 	void Draw() override;
 private:

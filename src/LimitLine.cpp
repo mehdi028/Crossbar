@@ -104,3 +104,7 @@ float LimitLine::getLimitX()
 {
 	return limit_x;
 }
+
+void LimitLine::UpdatePos(float limit)
+{
+}

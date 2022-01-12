@@ -3,18 +3,68 @@
 #include "ShaderObjects.h"
 
 namespace wrl = Microsoft::WRL;
-Enemy::Enemy(Graphics& gfx)
-	:Drawable(gfx)
+Enemy::Enemy(Graphics& gfx, float limitLine)
+	:limitLine(limitLine), Drawable(gfx)
 {
+	float x_limit = 0.05f;
+	// use current time as seed for random generator
+	int random_variable1 = std::rand();
+	std::ostringstream ss;
+
+	int switches = (random_variable1 % 10);
+	ss << switches << "\n";
+	OutputDebugStringA(ss.str().c_str());
+	int random_variable2 = std::rand();
+	//float y;
+	//float x;
+	int col_index = 0;
+	switch (random_variable2 % 6)
+	{
+	case 0: x = -0.75f; y = 0.9f; col_index = 0; break;
+	case 1: x = -0.45f; y = 0.9f; col_index = 1; break;
+	case 2: x = -0.15; y = 0.9f; col_index = 2; break;
+	case 3: x = 0.15; y = 0.9f; col_index = 0; break;
+	case 4: x = 0.45; y = 0.9f; col_index = 1; break;
+	case 5: x = limitLine - x_limit; y = 0.9f; col_index = 2; break;
+	default: x = limitLine - x_limit; y = 0.0f; break;
+	}
+	switch (random_variable1 % 5)
+	{
+	case 0: col_index = 0; break;
+	case 1: col_index = 1; break;
+	case 2: col_index = 2; break;
+	case 3: col_index = 3; break;
+	case 4: col_index = 4; break;
+
+	}
 	struct Vertex {
 		float x;
 		float y;
+		unsigned char r;
+		unsigned char g;
+		unsigned char b;
+		unsigned char a;
+	};
+	struct Colors {
+		unsigned char r;
+		unsigned char g;
+		unsigned char b;
+		unsigned char a;
+
+	};
+	Colors col[] = {
+		{255, 0, 0, 255},
+		{0, 255, 0, 255},
+		{0, 0, 255, 255},
+		{255, 255, 0, 255},
+		{255, 0, 255, 255}
+
 	};
 	std::vector<Vertex> verticies = {
-		{0.05f, 0.05f},
-		{0.05f, 0.0f},
-		{-0.25f, 0.0f},
-		{-0.25f, 0.05f}
+		{x_limit, 0.1f, col[col_index].r,col[col_index].g, col[col_index].b, col[col_index].a},
+		{x_limit, 0.0f, col[col_index].r,col[col_index].g, col[col_index].b, col[col_index].a},
+		{-0.25f, 0.0f, col[col_index].r,col[col_index].g, col[col_index].b, col[col_index].a},
+		{-0.25f, 0.1f, col[col_index].r,col[col_index].g, col[col_index].b, col[col_index].a}
 	};
 	
 	//short int indicies
@@ -71,12 +121,13 @@ Enemy::Enemy(Graphics& gfx)
 
 	// input layout	
 	const D3D11_INPUT_ELEMENT_DESC iedesc[] = {
-		{"POSITION",0,DXGI_FORMAT_R32G32_FLOAT,0,0, D3D11_INPUT_PER_VERTEX_DATA,0}
+		{"POSITION",0,DXGI_FORMAT_R32G32_FLOAT,0,0, D3D11_INPUT_PER_VERTEX_DATA,0},
+		{"COLOR",0, DXGI_FORMAT_R8G8B8A8_UNORM,0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA,0}
 	};
 	GFX_CHECK_ERROR(GetpDevice()->CreateInputLayout(iedesc, (UINT)std::size(iedesc), pBlob->GetBufferPointer(), pBlob->GetBufferSize(), &pinputLayout));
 
 
-	struct TransformBuffer {
+	/*struct TransformBuffer {
 
 		DirectX::XMMATRIX transform;
 	};
@@ -86,7 +137,7 @@ Enemy::Enemy(Graphics& gfx)
 			DirectX::XMMatrixTranslation(0.f,0.f,0.f))
 
 		}
-	};
+	};*/
 	/*wrl::ComPtr<ID3D11Buffer>  pTBuffer;
 	D3D11_SUBRESOURCE_DATA transformData;
 	transformData.pSysMem = &tbuffer;
@@ -104,28 +155,10 @@ Enemy::Enemy(Graphics& gfx)
 	{
 		DirectX::XMMATRIX transforms;
 	};
-	 // use current time as seed for random generator
-	int random_variable1 = std::rand();
-	std::ostringstream ss;
 	
-	int switches =  (random_variable1 % 10);
-	ss << switches << "\n";
-	OutputDebugStringA(ss.str().c_str());
-	int random_variable2 = std::rand();
-	float y;
-	float x;
-	switch (switches % 5)
-	{
-	case 0: x = 0.0f; y = 0.8f; break;
-	case 1: x = 0.3f; y = 0.5f; break;
-	case 2: x = -0.4f; y = -0.2f; break;
-	case 3: x = -0.7f; y = -0.6f; break;
-	case 4: x = 1.0f; y = 0.8f; break;
-	default: x = 0.0f; y = 0.0f; break;
-	}
 	std::ostringstream sss;
 	sss << x << "," << y << "\n";
-	OutputDebugStringA(sss.str().c_str());
+	//OutputDebugStringA(sss.str().c_str());
 
 	const Cbuffer cb =
 	{
@@ -161,4 +194,19 @@ void Enemy::Draw()
 	/*GetpContext()->VSSetConstantBuffers(0, 1u, pTBuffer.GetAddressOf());*/
 	GetpContext()->VSSetConstantBuffers(0, 1u, pTransformbuffer.GetAddressOf());
 	GetpContext()->DrawIndexed(nverticies, 0u, 0u);
+}
+
+void Enemy::UpdatePos(float limit) 
+{
+	//move_coordinate = move_y;
+	struct Cbuffer
+	{
+		DirectX::XMMATRIX transforms;
+	};
+	const Cbuffer cb =
+	{
+		{DirectX::XMMatrixTranspose(DirectX::XMMatrixTranslation(x, y-= 0.1f, 0.f))}
+	};
+
+	ConstantBuffer<Cbuffer>::UpdateBuffer(pGfx, pTransformbuffer, cb);
 }

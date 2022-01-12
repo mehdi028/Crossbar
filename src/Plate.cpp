@@ -140,18 +140,18 @@ Plate::Plate(Graphics& gfx) noexcept
 	ConstantBuffer<Cbuffer> moveBuffer(gfx, pTransformbuffer, cb);
 }
 
-void Plate::UpdatePos(float x, float limit)
+void Plate::UpdatePos(float limit)
 {
-	float transform_x = x;
+	float transform_x = move_plate_val;
 
-	if (x + 0.05f > limit)
+	if (move_plate_val + 0.05f > limit)
 	{
 		transform_x = limit - 0.05f;
 		move_plate_val = transform_x;
 
 
 	}
-	if (x - 0.25f < -1.f)
+	else if (move_plate_val - 0.25f < -1.f)
 	{
 		transform_x = -1.f + 0.25f;
 		move_plate_val = transform_x;
@@ -181,12 +181,12 @@ void Plate::MovePlate(Window& wnd, float limit)
 	if (kb_event.Unicode == VK_RIGHT) {
 
 		move_plate_val += 0.05f;
-		UpdatePos(move_plate_val, limit);
+		UpdatePos(limit);
 	}
 	else if (kb_event.Unicode == VK_LEFT)
 	{
 		move_plate_val -= 0.05f;
-		UpdatePos(move_plate_val,limit);
+		UpdatePos(limit);
 
 	}
 }

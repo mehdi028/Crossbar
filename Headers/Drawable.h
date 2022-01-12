@@ -6,6 +6,7 @@ class Drawable {
 public:
 	Drawable(Graphics& pgfx);
 	void virtual Draw() = 0;
+	void virtual UpdatePos(float limit) = 0;
 	
 	virtual ~Drawable() = default;
 
