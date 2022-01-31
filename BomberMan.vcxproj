@@ -97,9 +97,7 @@
     <ClCompile Include="shaderObjects\cpp\IndBuffer.cpp" />
     <ClCompile Include="src\Plate.cpp" />
     <ClCompile Include="src\LimitLine.cpp" />
-    <ClCompile Include="src\InputLayout.cpp" />
     <ClCompile Include="src\PixelShader.cpp" />
-    <ClCompile Include="src\IndexBuffer.cpp" />
     <ClCompile Include="src\Bindable.cpp" />
     <ClCompile Include="src\Drawable.cpp" />
     <ClCompile Include="src\Enemy.cpp" />
@@ -130,10 +128,8 @@
     <ClInclude Include="Headers\Keyboard.h" />
     <ClInclude Include="Headers\Mouse.h" />
     <ClInclude Include="Headers\Vbuffer.h" />
-    <ClInclude Include="Headers\IndexBuffer.h" />
     <ClInclude Include="Headers\VertexShader.h" />
     <ClInclude Include="Headers\PixelShader.h" />
-    <ClInclude Include="Headers\InputLayout.h" />
     <ClInclude Include="Headers\LimitLine.h" />
     <ClInclude Include="Headers\Plate.h" />
     <ClInclude Include="shaderObjects\Headers\IndBuffer.h" />
